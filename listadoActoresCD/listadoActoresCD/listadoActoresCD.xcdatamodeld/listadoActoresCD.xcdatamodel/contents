@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15A284" minimumToolsVersion="Automatic">
+    <entity name="ActorEntity" syncable="YES">
+        <attribute name="nameAtr" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="tieneMuchas" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PeliculaEntity" inverseName="pertenecenA" inverseEntity="PeliculaEntity" syncable="YES"/>
+    </entity>
+    <entity name="PeliculaEntity" syncable="YES">
+        <attribute name="anioAtr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tituloAtr" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="pertenecenA" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ActorEntity" inverseName="tieneMuchas" inverseEntity="ActorEntity" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="ActorEntity" positionX="-63" positionY="-18" width="128" height="75"/>
+        <element name="PeliculaEntity" positionX="-54" positionY="0" width="128" height="90"/>
+    </elements>
+</model>
