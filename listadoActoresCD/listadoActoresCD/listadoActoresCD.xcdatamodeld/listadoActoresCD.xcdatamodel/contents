@@ -7,7 +7,7 @@
     <entity name="PeliculaEntity" syncable="YES">
         <attribute name="anioAtr" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tituloAtr" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="pertenecenA" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ActorEntity" inverseName="tieneMuchas" inverseEntity="ActorEntity" syncable="YES"/>
+        <relationship name="pertenecenA" maxCount="1" deletionRule="Nullify" destinationEntity="ActorEntity" inverseName="tieneMuchas" inverseEntity="ActorEntity" syncable="YES"/>
     </entity>
     <elements>
         <element name="ActorEntity" positionX="-63" positionY="-18" width="128" height="75"/>

@@ -11,11 +11,14 @@ import CoreData
 
 class PeliculaTableViewController: UITableViewController {
 
-    var peliculas = [NSManagedObject]()
+    var peliculas: [NSManagedObject] = []
+    var selectedActor: NSManagedObject?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = selectedActor?.valueForKey("nameAtr") as? String
     }
 
     override func didReceiveMemoryWarning() {
@@ -85,28 +88,40 @@ class PeliculaTableViewController: UITableViewController {
         
         pelicula.setValue(tituloToSave, forKey: "tituloAtr")
         pelicula.setValue(anioToSave, forKey: "anioAtr")
+        pelicula.setValue(selectedActor, forKey: "pertenecenA")
         
         do {
             try managedContext.save()
             
             peliculas.append(pelicula)
         }
-        catch{
-            print("Error al guardar la pelicula")
+        catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
         }
     }
     
     
     //Cargar pelicula
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         
         let fetchRequest = NSFetchRequest(entityName: "PeliculaEntity")
         
         do{
-            let results = try managedContext.executeFetchRequest(fetchRequest)
-            peliculas = results as! [NSManagedObject]
+            let results = try managedContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
+            if selectedActor?.valueForKey("nameAtr") as? String == "All" {
+                peliculas = results
+            } else {
+                for pelicula in results{
+                    if(pelicula.valueForKey("pertenecenA") as? NSManagedObject) == selectedActor {
+                        peliculas.append(pelicula)
+                    }
+                }
+            }
+            
         }
         catch {
             print("Error al cargar las peliculas")

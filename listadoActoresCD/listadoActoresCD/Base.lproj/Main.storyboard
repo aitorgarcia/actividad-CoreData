@@ -37,7 +37,7 @@
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="nombreActorLB" destination="Tq4-Oy-vpQ" id="rrr-Om-qwg"/>
-                                    <segue destination="5s7-8Z-XEh" kind="show" id="tUB-3w-zQx"/>
+                                    <segue destination="5s7-8Z-XEh" kind="show" identifier="Peliculas" id="tUB-3w-zQx"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

@@ -11,7 +11,7 @@ import CoreData
 
 class ActorTableViewController: UITableViewController {
 
-    var actores = [NSManagedObject]()
+    var actores: [NSManagedObject] = []
     
     
     override func viewDidLoad() {
@@ -31,11 +31,9 @@ class ActorTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ActorTableViewCell", forIndexPath: indexPath) as! ActorTableViewCell
-
         let actor = actores[indexPath.row]
-        
-        cell.nombreActorLB.text = actor.valueForKey("nameAtr") as? String
+        let cell = tableView.dequeueReusableCellWithIdentifier("ActorTableViewCell", forIndexPath: indexPath) as! ActorTableViewCell
+        cell.nombreActorLB?.text = actor.valueForKey("nameAtr") as? String
 
         return cell
     }
@@ -92,21 +90,15 @@ class ActorTableViewController: UITableViewController {
     
     //Cargar actor
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         
         let fetchRequest = NSFetchRequest(entityName: "ActorEntity")
         
-        /*
-         *    FILTRAR POR ACTOR?????????????????????
-         *
-         *
-        */
-        //fetchRequest.predicate = NSPredicate(format: "name == %@", )
-        
         do{
-            let results = try managedContext.executeFetchRequest(fetchRequest)
-            actores = results as! [NSManagedObject]
+            actores = try managedContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
         }
         catch {
             print("Error al cargar los actores")
@@ -137,4 +129,15 @@ class ActorTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
         return "Eliminar"
     }
+    
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier != "Peliculas" { return }
+        let celdaRef = sender as! ActorTableViewCell
+        let destinoVC = segue.destinationViewController as! PeliculaTableViewController
+        let filaSeleccionada = tableView.indexPathForCell(celdaRef)
+        destinoVC.selectedActor = actores[(filaSeleccionada?.row)!]
+    }
+    
 }
